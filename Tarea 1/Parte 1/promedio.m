@@ -5,12 +5,13 @@ function Y = promedio(A, tol)
   A = im2double(A);
   [m, n, r] = size(A);
   
+  %{
   % Vector con los canales en cero
   tol = zeros(1, 1, r);
   tol(:, :, 1) = tol; % Canal rojo
   tol(:, :, 2) = tol; % Canal verde
   tol(:, :, 3) = tol; % Canal azul
-  
+  %}
   for i = 1:m
     for j = 1:n
       vecindario = [];
@@ -49,18 +50,18 @@ function Y = promedio(A, tol)
       endif     
     
     prom = mean(vecindario); % Se calcula el promedio del vecindario
-        
-    pix_rojo = A(i, j, 1);
-    pix_verde = A(i, j, 2);
-    pix_azul = A(i, j, 3);
-
-    dif_rojo = norm(A(i, j, 1) - prom, 'fro');
-    dif_verde = norm(A(i, j, 2) - prom, 'fro');
-    dif_azul = norm(A(i, j, 3) - prom, 'fro');
+    
+    dif_rojo = A(i, j, 1) - prom(:, :, 1);
+    dif_verde = A(i, j, 2) - prom(:, :, 2);
+    dif_azul = A(i, j, 3) - prom(:, :, 3);
+    
+    norm_rojo = norm(dif_rojo, 'fro');
+    norm_verde = norm(dif_verde, 'fro');
+    norm_azul = norm(dif_azul, 'fro');
     
     % Se verifica si el pixel sobrepasa la tolerancia    
-    if pixel >= tol
-      A(i, j, :) = prom
+    if (norm_rojo > tol) || (norm_verde > tol) || (norm_azul > tol) 
+      A(i, j, :) = prom;
     endif  
       
     end
