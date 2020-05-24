@@ -36,8 +36,11 @@ i = 1; % Contador para guardar la imagenes en la matriz
 % Filtrado de la imagen con ruido con diferentes valores de r
 for r = r_vec
   % Calculo de Z
-  Vr = Vb(:, 1:r);
-  Pr = C * Vr * Vr';
+  s = rank(B);
+  Vs = Vb(:, 1:s);
+  P = C * Vs * Vs';
+  [Up, Sp, Vp] = svd(P); % Descomposicion SVD de P
+  Pr = Up(:, 1:r) * Sp(1:r, 1:r) * Vp(:, 1:r)';
   Z = Pr * pinv(B);
   
   % Se filtra la imagen y se restauran sus dimensiones
@@ -69,6 +72,6 @@ for i = 1:size(r_vec)(2)
   pause(0.5)
   
   % Se almacena la imagen
-  saveas(f,['video/' num2str(i) '.png']);
+  saveas(f,['comparaciones/' num2str(i) '.png']);
   close(f);
 endfor
