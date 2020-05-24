@@ -1,9 +1,17 @@
-% Este archivo utiliza el espacio de caras generado por face_space.m para
+% Este archivo utiliza el espacio de caras generado por parte3.m para
 % realizar una comparacion entre una cara ingresada con las almacenadas
 % en el espacio de caras
 
 % Lectura de la imagen
-imagen = imread('Comparar\17_10.png');
+numero_imagen = 19;
+imagen = imread(['Comparar\' num2str(numero_imagen) '_10.png']);
+
+% Plot del rostro ingresado
+subplot(1, 2, 1);
+imshow(imagen)
+title('Imagen ingresada');
+
+% Vectorizacion de la imagen
 imagen = im2double(imagen)(:);
 
 x1 = U(:, 1:r)' * (imagen - f); % Se calcula el vector coordenado
@@ -30,5 +38,8 @@ else % Si ef < el la imagenes es una cara
   B = reshape(S(:, pos), [112 92]); % Se restauran las dimensiones de la imagen
 endif  
 
+% Plot de la coincidencia obtenida
+subplot(1, 2, 2);
 imshow(B);
+title('Coincidencia obtenida');
 
