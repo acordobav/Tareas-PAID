@@ -52,6 +52,9 @@ endfor
 
 % Animacion de las imagenes filtradas
 for i = 1:size(r_vec)(2)
+  f=figure(2);
+  set(f,'Visible', 'off');
+  
   % Plot de la imagen con ruido
   subplot(1, 2, 1);
   imshow(A);
@@ -64,4 +67,8 @@ for i = 1:size(r_vec)(2)
 
   % Pausa de 0.5 segundos
   pause(0.5)
+  
+  % Se almacena la imagen
+  saveas(f,['video/' num2str(i) '.png']);
+  close(f);
 endfor
