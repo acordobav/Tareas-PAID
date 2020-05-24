@@ -1,63 +1,17 @@
-function Y = promedio(A, tol)
-  % A: imagen en formato double a la cual realizar el algoritmo
+function Y = promedio(A, tol=51)
+  % Filtro promedio para una imagen a color
+  % A: imagen en formato uint8 a la cual realizar el algoritmo
   % tol: tolerancia minima en formato double
+  % Y: imagen filtrada en formato uint8
+  A = double(A); % Cambio a formato double
+  rojo = A(:, :, 1); % Canal rojo
+  verd = A(:, :, 2); % canal verde
+  azul = A(:, :, 3); % Canal azul
   
-  A = im2double(A);
-  [m, n, r] = size(A);
+  % Se aplica el filtro a cada uno de los canales
+  A(:, :, 1) = promedio1D(rojo, tol); % Canal rojo
+  A(:, :, 2) = promedio1D(verd, tol); % Canal verde
+  A(:, :, 3) = promedio1D(azul, tol); % Canal azul
   
-  for i = 1:m
-    for j = 1:n
-      vecindario = [];
-      
-      i_ant = i - 1; % Fila anterior
-      i_sig = i + 1; % Fila siguiente
-      j_ant = j - 1; % Columna anterior
-      j_sig = j + 1; % Columna siguiente
-      
-      % Verificacion columna izquierda
-      if(j_ant != 0)
-        % Verificacion fila anterior
-        if (i_ant != 0)
-          vecindario = [vecindario A(i_ant, j_ant, :)];
-        end
-        % Verificacion fila siguiente
-        if(i_sig != m+1)
-          vecindario = [vecindario A(i_sig, j_ant, :)];
-        end
-        % Caso fila actual
-        vecindario = [vecindario A(i, j_ant, :)];
-      endif
-      
-      % Verificacion columna derecha
-      if(j_sig != n+1)
-        % Verificacion fila anterior
-        if (i_ant != 0)
-          vecindario = [vecindario A(i_ant, j_sig, :)];
-        end
-        % Verificacion fila siguiente
-        if(i_sig != m+1)
-          vecindario = [vecindario A(i_sig, j_sig, :)];    
-        end
-        % Caso fila actual
-        vecindario = [vecindario A(i, j_sig, :)];
-      endif     
-    
-    prom = mean(vecindario); % Se calcula el promedio del vecindario
-    
-    dif_rojo = A(i, j, 1) - prom(:, :, 1);
-    dif_verde = A(i, j, 2) - prom(:, :, 2);
-    dif_azul = A(i, j, 3) - prom(:, :, 3);
-    
-    norm_rojo = norm(dif_rojo, 'fro');
-    norm_verde = norm(dif_verde, 'fro');
-    norm_azul = norm(dif_azul, 'fro');
-    
-    % Se verifica si el pixel sobrepasa la tolerancia    
-    if (norm_rojo >= tol) || (norm_verde >= tol) || (norm_azul >= tol) 
-      A(i, j, :) = prom;
-    endif  
-      
-    end
-  end
-  Y = A;
+  Y = uint8(A);
 endfunction

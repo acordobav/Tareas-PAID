@@ -1,40 +1,23 @@
-function Y = bilineal(A)
-  % Funcion que utiliza el algoritmo de interpolacion bilineal para
-  % eliminar los pixeles faltantes de una imagen
-  % A es la imagen en formato uint8
-  % Y es la imagen resultante en formato uint8
-  [m, n, r] = size(A);
+function Y = bilineal(A, tol=51)
+  % Filtro Bilineal para una imagen a color
+  % A: imagen en formato uint8 a la cual realizar el algoritmo
+  % tol: tolerancia minima en formato double
+  % Y: imagen filtrada en formato uint8
   
   % Se realiza una copia de los bordes de la imagen A, aumentando
   % su tamaño en dos filas y dos columnas
   B = expandir_imagen(A);
-  B = im2double(B);
   
-  % Vector con los canales en aproximadamente cero
-  cero = zeros(1, 1, r) + 0.4; 
+  B = double(B); % Cambio a formato double
   
-  for x = 2:m+1
-    for y = 2:n+1
-      if (B(x, y, :) <= cero)
-        x1 = x - 1; % Fila anterior
-        x2 = x + 1; % Fila siguiente
-        y1 = y - 1; % Columna anterior
-        y2 = y + 1; % Columna siguiente
-        
-        % Interpolacion lineal en el eje x
-        a = ((x2 - x) / (x2 - x1));
-        b = ((x - x1) / (x2 - x1));
-        f_R1 = a * B(x1, y1, :) + b * B(x2, y1, :);       
-        f_R2 = a * B(x1, y2, :) + b * B(x2, y2, :);
+  rojo = B(:, :, 1); % Canal rojo
+  verd = B(:, :, 2); % canal verde
+  azul = B(:, :, 3); % Canal azul
   
-        % Interpolacion lineal en el eje y
-        c = ((y2 - y) / (y2 - y1));
-        d = ((y - y1) / (y2 - y1));
-        f_P = c * f_R1 + d * f_R2;
-
-        B(x, y, :) = f_P;
-      endif  
-    endfor  
-  endfor
-  Y = B(2:m+1, 2:n+1, :);
+  % Se aplica el filtro a cada uno de los canales
+  A(:, :, 1) = bilineal1D(rojo, tol); % Canal rojo
+  A(:, :, 2) = bilineal1D(verd, tol); % Canal verde
+  A(:, :, 3) = bilineal1D(azul, tol); % Canal azul  
+  
+  Y = uint8(A);
 endfunction
