@@ -11,8 +11,9 @@ tic
 Y2 = bilineal(A);
 t1 = toc
 
-Y1 = double(Y1);
-Y2 = double(Y2);
+Y1 = im2double(Y1);
+Y2 = im2double(Y2);
+O = im2double(O);
 
 nr_p = norm(Y1(:, :, 1),'fro'); % Norma canal rojo promedio
 ng_p = norm(Y1(:, :, 2),'fro'); % Norma canal verde promedio
