@@ -23,5 +23,5 @@ nr_b = norm(Y2(:, :, 1) - O(:, :, 1),'fro'); % Norma canal rojo bilineal
 ng_b = norm(Y2(:, :, 2) - O(:, :, 2),'fro'); % Norma canal verde bilineal
 nb_b = norm(Y2(:, :, 3) - O(:, :, 3),'fro'); % Norma canal azul bilineal
 
-[nr_p ng_p ng_p]
-[nr_b ng_b ng_b]
+[nr_p ng_p nb_p]
+[nr_b ng_b nb_b]
