@@ -1,6 +1,6 @@
 function B = iamfa_i(A)
   [m,n] = size(A);
-  B = zeros(m,n);
+  B = im2uint8(A);
   
   % Calcular el filtro de la mediana en los bordes de la imagen
 
