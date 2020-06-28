@@ -78,6 +78,4 @@ function B = iamfa_i(A)
     endfor
   endfor
   
-  B = im2uint8(B);
-  
 endfunction
