@@ -61,7 +61,7 @@ for k = 1:fr
 endfor  
 
 % Crear el nuevo video
-video = VideoWriter('video_salida.mp4'); % Crear el video nuevo (vacio)
+video = VideoWriter('video_croma.mp4'); % Crear el video nuevo (vacio)
 for i = 1:fr
   writeVideo(video, Y2(:, :, :, i)); % Agregar cada marco del video
 endfor
