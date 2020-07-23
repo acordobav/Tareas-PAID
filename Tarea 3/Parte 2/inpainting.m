@@ -1,4 +1,4 @@
-function C = inpainting(A, B, kernel, num_iteration)
+function A = inpainting(A, B, kernel, num_iteration)
   % A: imagen que tiene que ser restaurada
   % B: mascara con la region a restaurar
   % kernel: kernel de difusion
