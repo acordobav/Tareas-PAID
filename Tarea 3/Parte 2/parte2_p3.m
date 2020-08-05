@@ -31,7 +31,7 @@ title('(a) Imagen con borde verde')
 % Elemento estructurado
 SE = strel('diamond',2);
 
-% Gradiente morfoligico: (A dilatacion B) - (A erosion B)
+% Gradiente morfologico: (A dilatacion B) - (A erosion B)
 borde = R&~imerode(R,SE);
 
 % Creacion del kernel
